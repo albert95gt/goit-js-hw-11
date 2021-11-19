@@ -63,6 +63,6 @@ module.exports={version:"0.24.0"};
 },{"./utils":"S1cf","./helpers/bind":"EDTP","./core/Axios":"OvAf","./core/mergeConfig":"OHvn","./defaults":"BXyq","./cancel/Cancel":"mIKj","./cancel/CancelToken":"tsWd","./cancel/isCancel":"V30M","./env/data":"xNqU","./helpers/spread":"X8jb","./helpers/isAxiosError":"wICU"}],"dZBD":[function(require,module,exports) {
 module.exports=require("./lib/axios");
 },{"./lib/axios":"nUiQ"}],"Focm":[function(require,module,exports) {
-"use strict";require("./sass/main.scss");var s=e(require("axios"));function e(s){return s&&s.__esModule?s:{default:s}}s.default.defaults.baseURL="https://pixabay.com/api/";
+"use strict";require("./sass/main.scss");var e=s(require("axios"));function s(e){return e&&e.__esModule?e:{default:e}}const a="24370619-9679c13b7b313e4f61ec3203f";e.default.defaults.baseURL="https://pixabay.com/api/",e.default.defaults.headers.common.Authorization=a;
 },{"./sass/main.scss":"clu1","axios":"dZBD"}]},{},["Focm"], null)
-//# sourceMappingURL=/goit-js-hw-11/src.73fafd1c.js.map
+//# sourceMappingURL=/goit-js-hw-11/src.dc2ae5e0.js.map
