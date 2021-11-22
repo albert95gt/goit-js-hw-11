@@ -1,6 +1,9 @@
 import './sass/main.scss';
 import PixabayApiServices from "./js/pixabay-services";
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import SimpleLightbox from "simplelightbox";
+import 'simplelightbox/dist/simple-lightbox.min.css';
+
 
 const pixabayApiServices = new PixabayApiServices;
 
@@ -45,16 +48,22 @@ async function onSearchImg(event){
         
         const markup = await renderCardImg(galleryImages.hits);
         refs.gallery.innerHTML = markup;
+        const lightbox = showGalleryLargeImage();
+        lightbox.on();
+        
+        
     } catch (error) {
-      Notify.failure("bad request!!!")
+      // Notify.failure(error.text)
+      console.log(error);
     }
     
 }
 
 function renderCardImg(elements){
-return    elements.map(({ webformatURL, tags, likes, views, comments, downloads }) => {
+return    elements.map(({ webformatURL, tags, likes, views, comments, downloads, largeImageURL }) => {
 
-        return `<div class="photo-card">
+        return `<a class="gallery-link" href="${largeImageURL}">
+        <div class="photo-card">
         <img class="photo-card_img"   src="${webformatURL}" alt="${tags}" loading="lazy" />
         <div class="info">
           <p class="info-item">
@@ -74,18 +83,22 @@ return    elements.map(({ webformatURL, tags, likes, views, comments, downloads 
             ${downloads}
           </p>
         </div>
-      </div>`
+      </div>
+      </a>`
     }).join('');
 }
 
 let imagesPerPage = 40;  
 async function onLoadMoreImg(){
   try {
+    
     pixabayApiServices.incrementPage();
     const galleryImages = await pixabayApiServices.getImages(pixabayApiServices.searchQuery);
     imagesPerPage += 40;
     const markup = await renderCardImg(galleryImages.hits);
     refs.gallery.insertAdjacentHTML("beforeend", markup) ;
+    const lightbox = showGalleryLargeImage();
+    lightbox.refresh();
     if(galleryImages.totalHits <= imagesPerPage){
       hideLoadMoreBtn();
       Notify.info("We're sorry, but you've reached the end of search results.");
@@ -93,7 +106,8 @@ async function onLoadMoreImg(){
     }
 
   } catch (error) {
-    Notify.failure("bad request!!!")
+    // Notify.failure(error)
+    console.log(error);
   }
 }
 
@@ -106,6 +120,17 @@ function hideLoadMoreBtn(){
 }
 function showLoadMoreBtn(){
   refs.loadMoreBtn.classList.remove("hidden");
+}
+
+function showGalleryLargeImage(){
+  
+  let simplelightbox = new SimpleLightbox('.gallery-link', {
+    captionsData: "alt",
+    captionDelay: 250,
+  })
+  return simplelightbox;
+  
+
 }
 
 
