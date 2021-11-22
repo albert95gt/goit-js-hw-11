@@ -48,8 +48,7 @@ async function onSearchImg(event){
         
         const markup = await renderCardImg(galleryImages.hits);
         refs.gallery.innerHTML = markup;
-        const lightbox = showGalleryLargeImage();
-        lightbox.on();
+        showGalleryLargeImage().on('show.simplelightbox');
         
         
     } catch (error) {
@@ -97,8 +96,7 @@ async function onLoadMoreImg(){
     imagesPerPage += 40;
     const markup = await renderCardImg(galleryImages.hits);
     refs.gallery.insertAdjacentHTML("beforeend", markup) ;
-    const lightbox = showGalleryLargeImage();
-    lightbox.refresh();
+    showGalleryLargeImage().refresh();
     if(galleryImages.totalHits <= imagesPerPage){
       hideLoadMoreBtn();
       Notify.info("We're sorry, but you've reached the end of search results.");
